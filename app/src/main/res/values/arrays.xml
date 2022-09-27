@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="guitar6_tuning_entries">
+        <item>Standard</item>
+        <item>Drop C</item>
+    </string-array>
+    <string-array name="guitar6_tuning_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>
