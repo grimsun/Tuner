@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var indicatorDrawable: AnalogIndicator
     private lateinit var mainView: ConstraintLayout
 
-    private val stringButtonList: MutableList<Button> = mutableListOf()
-
     private var lastState: State? = null
 
     private val listener : StateManager.Listener = object : StateManager.Listener {
@@ -50,15 +48,13 @@ class MainActivity : AppCompatActivity() {
 
                 if (lastState?.tuning != state.tuning) {
                     noteButtonContainer.removeAllViewsInLayout()
-                    stringButtonList.clear()
                     for ((_, string) in state.strings.iterator().withIndex()) {
                         val stringButton = createStringButton(string, state)
 
 //                        stringButton.setBackgroundColor(getStringButtonColor(string))
-                        stringButton.setTextColor(getStringButtonTextColor(string, state))
+                        stringButton.setTextColor(getNoteButtonTextColor(string, state))
 
                         noteButtonContainer.addView(stringButton)
-                        stringButtonList.add(stringButton)
                     }
                 }
                 lastState = state
@@ -148,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         // stringButton.id = ???
         stringButton.text = string.noteName
 //        stringButton.setBackgroundColor(getStringButtonColor(string))
-        stringButton.setTextColor(getStringButtonTextColor(string, state))
+        stringButton.setTextColor(getNoteButtonTextColor(string, state))
         stringButton.setOnClickListener {
             controller.selectString(string.position)
         }
@@ -156,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         return stringButton
     }
 
-    private fun getStringButtonTextColor(string: InString, state: State): Int {
+    private fun getNoteButtonTextColor(string: InString, state: State): Int {
         if (string.position == state.currentString.position) {
             return Color.GRAY
         }
