@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,15 +24,17 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-    // This controller drives audio related logic.
+    // This controller drives everything audio related.
     private val controller = Controller(RandomAudioEngine(), StateManager())
     // UI components.
-    private val stringButtonList: MutableList<Button> = mutableListOf()
     private lateinit var textView: TextView
     private lateinit var resetButton: TextView
     private lateinit var settingsButton: Button
-    private lateinit var stringButtonContainer: LinearLayout
+    private lateinit var noteButtonContainer: LinearLayout
     private lateinit var indicatorDrawable: AnalogIndicator
+    private lateinit var mainView: ConstraintLayout
+
+    private val stringButtonList: MutableList<Button> = mutableListOf()
 
     private var lastState: State? = null
 
@@ -46,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 //                }
 
                 if (lastState?.tuning != state.tuning) {
-                    stringButtonContainer.removeAllViewsInLayout()
+                    noteButtonContainer.removeAllViewsInLayout()
                     stringButtonList.clear()
                     for ((_, string) in state.strings.iterator().withIndex()) {
                         val stringButton = createStringButton(string, state)
@@ -54,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 //                        stringButton.setBackgroundColor(getStringButtonColor(string))
                         stringButton.setTextColor(getStringButtonTextColor(string, state))
 
-                        stringButtonContainer.addView(stringButton)
+                        noteButtonContainer.addView(stringButton)
                         stringButtonList.add(stringButton)
                     }
                 }
@@ -66,6 +69,8 @@ class MainActivity : AppCompatActivity() {
 
     private val random = Random(0)
     private val permissionCode = 10001
+    private val tag = MainActivity::class.simpleName
+
     private var audioPermissionGranted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,27 +79,30 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         textView = findViewById(R.id.textView)
-        stringButtonContainer = findViewById(R.id.stringButtonContainer)
-        settingsButton = findViewById(R.id.settingsButton)
-        settingsButton.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+        noteButtonContainer = findViewById(R.id.noteButtonContainer)
+        settingsButton = findViewById<Button?>(R.id.settingsButton).apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+            }
         }
-        resetButton = findViewById(R.id.resetButton)
-        resetButton.setOnClickListener {
-            controller.reset()
+        resetButton = findViewById<TextView?>(R.id.resetButton).apply {
+            setOnClickListener {
+                controller.reset()
+            }
         }
         indicatorDrawable = AnalogIndicator()
 
-        val mainView = findViewById<ConstraintLayout>(R.id.mainView)
-        mainView.background = indicatorDrawable
+        mainView = findViewById<ConstraintLayout>(R.id.mainView).apply {
+            background = indicatorDrawable
+        }
 
         setupPermissions()
     }
 
     private fun setupPermissions() {
-        val audioPerm =  Manifest.permission.RECORD_AUDIO
-        if (ContextCompat.checkSelfPermission(this,audioPerm) !=
-                PackageManager.PERMISSION_GRANTED) {
+        val audioPerm = Manifest.permission.RECORD_AUDIO
+        val permCheckResult = ContextCompat.checkSelfPermission(this, audioPerm)
+        if (permCheckResult != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(audioPerm), permissionCode)
         } else {
             audioPermissionGranted = true
@@ -111,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             audioPermissionGranted = true
         } else {
-            // TODO: Log an error.
+            Log.e(tag, "Permission is not granted")
         }
     }
 

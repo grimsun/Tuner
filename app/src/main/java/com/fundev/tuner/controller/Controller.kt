@@ -2,8 +2,8 @@ package com.fundev.tuner.controller
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import com.fundev.tuner.Constants.TUNING_PREFERENCE_KEY
 import com.fundev.tuner.audio.IAudioEngine
-import com.fundev.tuner.constants.TUNING_PREFERENCE_KEY
 import com.fundev.tuner.music.Tuning
 
 class Controller(private val audioEngine: IAudioEngine, val stateManager: StateManager) {

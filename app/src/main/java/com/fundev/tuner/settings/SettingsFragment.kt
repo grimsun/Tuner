@@ -3,8 +3,8 @@ package com.fundev.tuner.settings
 import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import com.fundev.tuner.Constants.TUNING_PREFERENCE_KEY
 import com.fundev.tuner.R
-import com.fundev.tuner.constants.TUNING_PREFERENCE_KEY
 import com.fundev.tuner.music.Tuning
 
 class SettingsFragment : PreferenceFragmentCompat() {
