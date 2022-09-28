@@ -1,4 +1,4 @@
-package com.fundev.tuner.view
+package com.fundev.tuner.ui
 
 import android.graphics.*
 import android.graphics.drawable.Drawable

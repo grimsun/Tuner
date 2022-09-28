@@ -18,7 +18,7 @@ import com.fundev.tuner.controller.State
 import com.fundev.tuner.controller.StateManager
 import com.fundev.tuner.music.InString
 import com.fundev.tuner.settings.SettingsActivity
-import com.fundev.tuner.view.AnalogIndicator
+import com.fundev.tuner.ui.AnalogIndicator
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
+        supportActionBar?.hide()
 
         textView = findViewById(R.id.textView)
         stringButtonContainer = findViewById(R.id.stringButtonContainer)

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tuner</string>
+    <string name="settings_action_bar_name">Settings</string>
+    <string name="settings_tuning_option_name">Tuning</string>
 </resources>

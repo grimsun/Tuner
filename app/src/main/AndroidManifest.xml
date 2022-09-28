@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".settings.SettingsActivity">
-        </activity>
+        <activity android:name=".settings.SettingsActivity"
+            android:label="@string/settings_action_bar_name"/>
     </application>
 
 </manifest>

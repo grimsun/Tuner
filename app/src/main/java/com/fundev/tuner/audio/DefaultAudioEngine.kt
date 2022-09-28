@@ -25,9 +25,10 @@ class DefaultAudioEngine : IAudioEngine {
             audioEncoding,
             bufferSize)
 
-    override var listener: IAudioListener? = null
+    override var callback: IAudioEngine.Callback? = null
+    override var analyzeFrequency: Int = 10
 
-    override fun startRecording() {
+    override fun start() {
         audioRecord.startRecording()
         val executor = Executors.newSingleThreadExecutor()
         val buffer = ShortArray(bufferSizeBase)
@@ -42,7 +43,7 @@ class DefaultAudioEngine : IAudioEngine {
         }
     }
 
-    override fun stopRecording() {
+    override fun halt() {
         audioRecord.stop()
     }
 

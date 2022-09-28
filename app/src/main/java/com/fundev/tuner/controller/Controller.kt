@@ -3,7 +3,6 @@ package com.fundev.tuner.controller
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.fundev.tuner.audio.IAudioEngine
-import com.fundev.tuner.audio.IAudioListener
 import com.fundev.tuner.constants.TUNING_PREFERENCE_KEY
 import com.fundev.tuner.music.Tuning
 
@@ -20,8 +19,8 @@ class Controller(private val audioEngine: IAudioEngine, val stateManager: StateM
         get() = stateManager.listener
 
     init {
-        audioEngine.listener = object : IAudioListener {
-            override fun onMeasure(frequency: Double) {
+        audioEngine.callback = object : IAudioEngine.Callback {
+            override fun onAnalyze(frequency: Double) {
                 stateManager.updateMeasuredFrequency(frequency)
             }
         }
@@ -31,14 +30,14 @@ class Controller(private val audioEngine: IAudioEngine, val stateManager: StateM
         stateManager.changeTuning(getTuning(context))
         listener = l
         if (!recording) {
-            audioEngine.startRecording()
+            audioEngine.start()
             recording = true
         }
     }
 
     fun stop() {
         if (recording) {
-            audioEngine.stopRecording()
+            audioEngine.halt()
             recording = false
         }
         listener = null
