@@ -20,6 +20,7 @@ import com.fundev.tuner.controller.StateManager
 import com.fundev.tuner.music.InString
 import com.fundev.tuner.settings.SettingsActivity
 import com.fundev.tuner.ui.AnalogIndicator
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -28,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     private val controller = Controller(RandomAudioEngine(), StateManager())
     // UI components.
     private lateinit var textView: TextView
-    private lateinit var resetButton: TextView
-    private lateinit var settingsButton: Button
+    private lateinit var resetButton: FloatingActionButton
+    private lateinit var settingsButton: FloatingActionButton
     private lateinit var noteButtonContainer: LinearLayout
     private lateinit var indicatorDrawable: AnalogIndicator
     private lateinit var mainView: ConstraintLayout
@@ -76,12 +77,12 @@ class MainActivity : AppCompatActivity() {
 
         textView = findViewById(R.id.textView)
         noteButtonContainer = findViewById(R.id.noteButtonContainer)
-        settingsButton = findViewById<Button?>(R.id.settingsButton).apply {
+        settingsButton = findViewById<FloatingActionButton?>(R.id.settingsButton).apply {
             setOnClickListener {
                 startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
             }
         }
-        resetButton = findViewById<TextView?>(R.id.resetButton).apply {
+        resetButton = findViewById<FloatingActionButton?>(R.id.resetButton).apply {
             setOnClickListener {
                 controller.reset()
             }
